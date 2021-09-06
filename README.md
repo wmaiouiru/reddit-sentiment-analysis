@@ -17,9 +17,15 @@ picks = int         define # of picks here, prints as "Top ## picks are:"
 picks_ayz = int     define # of picks for sentiment analysis
 </pre>
 
-# How to run:
-    
+# How to install and run:
+    cd ~/Documents/
+    python3.9 -m virtualenv py39_reddit_senti
+    source py39_reddit_senti/bin/activate
+    # add following to ~/.bash_profile for alias for mac
+    alias py39_reddit_senti="source ~/Documents/py39_reddit_senti/bin/activate"
     pip install -r requirements.txt
+    python -m spacy download en_core_web_sm # to download en_core_web_sm
+    # create reddit_user_config.yml, see reddit_user_config_example.yml
     python3 reddit-sentiment-analysis.py
     
     
@@ -62,3 +68,10 @@ It completely ignores the heavily downvoted comments, and there can be a time wh
 the most mentioned ticker is heavily downvoted, but you can change that in the upvotes variable.
 
 
+# Maintaince
+## Upgrade pip packages
+1. update requirements
+2. Execute the following
+```
+pip install --ignore-installed -r requirements.txt
+```

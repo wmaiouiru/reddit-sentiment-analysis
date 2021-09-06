@@ -11,7 +11,6 @@ the most mentioned ticker is heavily downvoted, but you can change that in upvot
 Author: github:asad70
 -------------------------------------------------------------------
 ****************************************************************************'''
-
 import praw
 from data import *
 import time
@@ -26,6 +25,7 @@ import emoji    # removes emojis
 import re   # removes links
 import en_core_web_sm
 import string
+from utils.config_loader import RedditUserConfig, RedditUserConfigLoader
 
 
 def data_extractor(reddit):
@@ -270,13 +270,16 @@ def main():
     Return:       None
     '''
     start_time = time.time()
+    reddit_config_loader = RedditUserConfigLoader(yml_filename='./reddit_user_config.yml')
+    reddit_user_config = reddit_config_loader.get_user_config()
+
     
-    # reddit client
-    reddit = praw.Reddit(user_agent="Comment Extraction",
-                         client_id="",
-                         client_secret="",
-                         username="",
-                         password="")
+    # TODO make this more concise in the future by going from object to input parameters
+    reddit = praw.Reddit(user_agent=reddit_user_config.user_agent,
+                         client_id=reddit_user_config.client_id,
+                         client_secret=reddit_user_config.client_secret,
+                         username=reddit_user_config.username,
+                         password=reddit_user_config.password)
 
     posts, c_analyzed, tickers, titles, a_comments, picks, subs, picks_ayz = data_extractor(reddit)
     symbols, times, top = print_helper(tickers, picks, c_analyzed, posts, subs, titles, time, start_time)
